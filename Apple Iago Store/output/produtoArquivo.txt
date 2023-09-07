@@ -1,0 +1,33 @@
+Macbook
+10142
+198
+Tecido
+2001
+19
+iPhone
+1234
+198
+iPhone
+1012
+109
+iPhone 12
+1012
+98
+Macbook Air
+1234
+109
+iPhone 12
+1012
+98
+MacAir
+1872
+109
+iPhone 12
+1012
+98
+MacAir
+1202
+198
+iPhone 12
+1099
+765
