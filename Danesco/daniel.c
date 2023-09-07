@@ -5,59 +5,117 @@
 int main()
 {
     char key[20], user[20], keypad[20] = "admin", userpad[20] = "admin";
-    int op;
+    int op, novo;
 
     do
     {
-        system("cls");
         printf("\n=======================================================\n");
-        printf("\n========================= LOGIN =========================\n");
+        printf("\n==================== POSSUI CONTA? ====================\n");
         printf("\n=======================================================\n");
-
-        printf("\nDigite uma opção: \n1 - Cliente\n2 - Funcionário\n3 - Sair -> ");
-        scanf("%d", &op);
-        
-        switch (op)
+        printf("\nDigite uma opção: \n1 - Login\n2 - Novo aqui?\n3 - Sair -> ");
+        scanf("%d", &novo);
+        switch (novo)
         {
         case 1:
-            printf("\nDigite o usuário: ");
-            scanf("%s", user);
-            printf("\nDigite a senha: ");
-            scanf("%s", key);
-            if (strcmp(user, userpad) == 0 && strcmp(key, keypad) == 0)
+            system("cls");
+            printf("\n=======================================================\n");
+            printf("\n========================= LOGIN =========================\n");
+            printf("\n=======================================================\n");
+
+            printf("\nDigite uma opção: \n1 - Cliente\n2 - Funcionário\n3 - Sair -> ");
+            scanf("%d", &op);
+            
+            switch (op)
             {
-                printf("\nLogin efetuado com sucesso!\n");
+            case 1:
+                printf("\nDigite o usuário: ");
+                scanf("%s", user);
+                printf("\nDigite a senha: ");
+                scanf("%s", key);
+                if (strcmp(user, userpad) == 0 && strcmp(key, keypad) == 0)
+                {
+                    printf("\nLogin efetuado com sucesso!\n");
+                    system("pause");
+                }
+                else
+                {
+                    printf("\nUsuário ou senha incorretos!\n");
+                    system("pause");
+                }
+                break;
+            case 2:
+                printf("\nDigite o usuário: ");
+                scanf("%s", user);
+                printf("\nDigite a senha: ");
+                scanf("%s", key);
+                if (strcmp(user, userpad) == 0 && strcmp(key, keypad) == 0)
+                {
+                    printf("\nLogin efetuado com sucesso!\n");
+                    system("pause");
+                }
+                else
+                {
+                    printf("\nUsuário ou senha incorretos!\n");
+                    system("pause");
+                }
+                break;
+            
+            case 3:
+                printf("\nSaindo...\n");
                 system("pause");
-            }
-            else
-            {
-                printf("\nUsuário ou senha incorretos!\n");
+                break;
+
+            default:
+                printf("\nOpção inválida!\n");
                 system("pause");
+                break;
             }
             break;
         case 2:
-            printf("\nDigite o usuário: ");
-            scanf("%s", user);
-            printf("\nDigite a senha: ");
-            scanf("%s", key);
-            if (strcmp(user, userpad) == 0 && strcmp(key, keypad) == 0)
+            system("cls");
+            printf("\n=======================================================\n");
+            printf("\n==================== NOVO CADASTRO ====================\n");
+            printf("\n=======================================================\n");
+            printf("\nDigite uma opção: \n1 - Cliente\n2 - Funcionário\n3 - Sair -> ");
+            scanf("%d", &op);
+            switch (op)
             {
-                printf("\nLogin efetuado com sucesso!\n");
+            case 1:
+                printf("\nDigite o usuário: ");
+                scanf("%s", user);
+                printf("\nDigite a senha: ");
+                scanf("%s", key);
+                strcpy(userpad, user);
+                strcpy(keypad, key);
+                printf("\nCadastro efetuado com sucesso!\n");
                 system("pause");
-            }
-            else
-            {
-                printf("\nUsuário ou senha incorretos!\n");
+                break;
+            case 2:
+                printf("\nDigite o usuário: ");
+                scanf("%s", user);
+                printf("\nDigite a senha: ");
+                scanf("%s", key);
+                strcpy(userpad, user);
+                strcpy(keypad, key);
+                printf("\nCadastro efetuado com sucesso!\n");
                 system("pause");
+                break;
+
+            default:
+                printf("\nOpção inválida!\n");
+                system("pause");
+                break;
             }
             break;
-
+        case 3:
+            printf("\nSaindo...\n");
+            system("pause");
+            break;
         default:
             printf("\nOpção inválida!\n");
             system("pause");
             break;
         }
-    
 
     } while (op!=3);
     return 0;
