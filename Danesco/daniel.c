@@ -14,6 +14,18 @@ int main()
         printf("\n=======================================================\n");
         printf("\nDigite uma opção: \n1 - Login\n2 - Novo aqui?\n3 - Sair -> ");
         scanf("%d", &novo);
+
+        if (novo == 3)
+        {
+            break;
+        } else if (novo != 1)
+        {
+            break;
+        } else if (novo != 2)
+        {
+            break;
+        }
+    
         switch (novo)
         {
         case 1:
@@ -24,6 +36,17 @@ int main()
 
             printf("\nDigite uma opção: \n1 - Cliente\n2 - Funcionário\n3 - Sair -> ");
             scanf("%d", &op);
+
+            if (novo == 3)
+            {
+                break;
+            } else if (novo != 1)
+            {
+                break;
+            } else if (novo != 2)
+            {
+                break;
+            }
             
             switch (op)
             {
@@ -115,6 +138,7 @@ int main()
             printf("\nOpção inválida!\n");
             system("pause");
             break;
+            
         }
 
     } while (op!=3);
