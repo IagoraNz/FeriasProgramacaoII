@@ -25,11 +25,14 @@ void menufunc(Produtos lista[], int *qP){
     scanf("%d", &opc);
     fflush(stdin);
 
+    FILE *qPa;
+
     FILE *pArquivo;
 
     switch (opc) 
     {
         case 1:
+            system("cls");
             printf("1.1 - Cadastrar\n");
             printf("1.2 - Armazenados\n");
             printf("1.3 - Voltar\n");
@@ -58,18 +61,23 @@ void menufunc(Produtos lista[], int *qP){
                     }while(strlen(lista[i].codigo) <= 1);
 
                     do{
-                        printf("\nDigite o nome do produto: ");
-                        scanf("%[^\n]", lista[i].nome);
+                        printf("Digite o nome do produto: ");
+                        scanf("%s", &lista[i].nome);
                         fflush(stdin);
                     }while(strlen(lista[i].nome) <= 1);
 
                     do{
-                        printf("\nDigite a quantidade do produto: ");
+                        printf("Digite a quantidade do produto: ");
                         scanf("%s", lista[i].quantidade);
                         fflush(stdin);
                     }while(strlen(lista[i].quantidade) <= 0);
 
+                    qPa = fopen("contador.txt", "w");
+
                     (*qP)++;
+
+                    fprintf(qPa, "%d", *qP);
+                    fclose(qPa);
 
                     pArquivo = fopen("ArquivoP2.txt", "a");
 
@@ -80,11 +88,14 @@ void menufunc(Produtos lista[], int *qP){
 
                     fprintf(pArquivo, "%s\n%s\n%s\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
                     fclose(pArquivo);
+
+                    system("cls");
                 } 
                 else{
                     printf("Categoria de produto inválida!\n");
                 }
-            } 
+            }
+
             else if(opc1 == 2){
                 pArquivo = fopen("ArquivoP2.txt", "r");
 
@@ -97,6 +108,16 @@ void menufunc(Produtos lista[], int *qP){
 
                 printf("_____ ESTOQUE _____\n");
                 printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+
+                qPa = fopen("contador.txt", "r");
+
+                if(qPa == NULL){
+                    printf("Contador nao encontrado\n");
+                    break;
+                }
+
+                fscanf(qPa, "%d", qP);
+
                 for(int j = 0; j <= *qP; j++){
                     fscanf(pArquivo, "%s", lista[j].codigo);
                     fscanf(pArquivo, "%s", lista[j].nome);
@@ -104,8 +125,10 @@ void menufunc(Produtos lista[], int *qP){
                     printf("%s\t%-15.15s\t\t%s\n", lista[j].codigo, lista[j].nome, lista[j].quantidade);
                 }
                 fclose(pArquivo);
+                fclose(qPa);
             }
             else if(opc1 == 3){
+                system("cls");
                 menufunc(lista, qP);
             }
             break;
@@ -172,6 +195,7 @@ void funcionario(){
             break;
 
         case 2:
+            system("cls");
             arquivo = fopen("cadastrofunc.txt", "r");
 
             if(arquivo == NULL){
@@ -266,10 +290,12 @@ int main(){
     switch (opcao) 
     {
         case 1:
+            system("cls");
             cliente();
             break;
 
         case 2:
+            system("cls");
             funcionario();
             break;
 
