@@ -1,6 +1,12 @@
-2330
-iPhoneXR
+1090
+iPhone 12
 98
-3998
-iPadPro
-109
+3004
+iPad Pro
+10
+4090
+Macbook Air
+80
+1091
+iPod 9
+25
