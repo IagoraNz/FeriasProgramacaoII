@@ -171,13 +171,13 @@ void menufunc(Produtos lista[], int *qP){
             printf("1 - Por ordem de codigo\n");
             printf("2 - Por ordem de quantidade\n");
             printf("3 - Por categoria\n");
-            printf("Abra o numero do estoque: ");
+            printf("Escolha a opção de ordenação: ");
             int opc2;
             scanf("%d", &opc2);
 
-            if (opc2 == 1) {
+            if(opc2 == 1){
                 qPa = fopen("contador.txt", "r");
-                if (qPa == NULL) {
+                if(qPa == NULL){
                     printf("Contador nao encontrado\n");
                     break;
                 }
@@ -185,22 +185,29 @@ void menufunc(Produtos lista[], int *qP){
                 fscanf(qPa, "%d", qP);
                 fclose(qPa);
 
-                QuickSort(lista, 0, *qP - 1);
+                pArquivo = fopen("ArquivoP2.txt", "r");
 
-                qPa = fopen("contador.txt", "w");
-                if (qPa == NULL) {
-                    printf("Contador nao encontrado\n");
+                if(pArquivo == NULL){
+                    printf("Dados nao encontrados. Cadastre produtos antes.\n");
                     break;
                 }
 
-                fprintf(qPa, "%d", *qP); 
-                fclose(qPa);
+                for(i = 0; i < *qP; i++){
+                    fscanf(pArquivo, "%d", &lista[i].codigo);
+                    fgetc(pArquivo);
+                    fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                    fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                    lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+                }
+                fclose(pArquivo);
+
+                QuickSort(lista, 0, *qP - 1);
 
                 printf("_____ ESTOQUE POR CODIGO _____\n");
-                for (i = 0; i < *qP; i++) {
-                    printf("Codigo: %d\n", lista[i].codigo);
-                    printf("Nome: %s\n", lista[i].nome);
-                    printf("Quantidade: %d\n\n", lista[i].quantidade);
+                printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+                for(i = 0; i < *qP; i++){
+                    printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
                 }
             }
             break;
