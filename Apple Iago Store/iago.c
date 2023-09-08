@@ -98,59 +98,44 @@ void menufunc(Produtos lista[], int *qP){
             fflush(stdin);
 
             if(opc1 == 1){
-                printf("Qual categoria de produto? (iPhone, Macbook, iPad, iPod, Acessorios): ");
-                scanf("%s", prod);
-                fflush(stdin);
+                printf("\nNovo Produto\n");
 
-                const char cat1[] = "iPhone";
-                const char cat2[] = "Macbook";
-                const char cat3[] = "iPad";
-                const char cat4[] = "iPod";
-                const char cat5[] = "Acessorios";
+                do{
+                    printf("\nDigite o codigo do produto: ");
+                    scanf("%d", &lista[i].codigo);
+                    fflush(stdin);
+                }while(lista[i].codigo < 1);
 
-                if(strcmp(prod, cat1) == 0 || strcmp(prod, cat2) == 0 || strcmp(prod, cat3) == 0 || strcmp(prod, cat4) == 0 || strcmp(prod, cat5) == 0){
-                    printf("\nNovo Produto\n");
+                do{
+                    printf("Digite o nome do produto: ");
+                    scanf("%[^\n]", lista[i].nome);
+                    fflush(stdin);
+                }while(strlen(lista[i].nome) <= 1);
 
-                    do{
-                        printf("\nDigite o codigo do produto: ");
-                        scanf("%d", &lista[i].codigo);
-                        fflush(stdin);
-                    }while(lista[i].codigo < 1);
+                do{
+                    printf("Digite a quantidade do produto: ");
+                    scanf("%d", &lista[i].quantidade);
+                    fflush(stdin);
+                }while(lista[i].quantidade < 1);
 
-                    do{
-                        printf("Digite o nome do produto: ");
-                        scanf("%[^\n]", lista[i].nome);
-                        fflush(stdin);
-                    }while(strlen(lista[i].nome) <= 1);
+                qPa = fopen("contador.txt", "w");
 
-                    do{
-                        printf("Digite a quantidade do produto: ");
-                        scanf("%d", &lista[i].quantidade);
-                        fflush(stdin);
-                    }while(lista[i].quantidade < 1);
+                (*qP)++;
 
-                    qPa = fopen("contador.txt", "w");
+                fprintf(qPa, "%d", *qP);
+                fclose(qPa);
 
-                    (*qP)++;
+                pArquivo = fopen("ArquivoP2.txt", "a");
 
-                    fprintf(qPa, "%d", *qP);
-                    fclose(qPa);
-
-                    pArquivo = fopen("ArquivoP2.txt", "a");
-
-                    if(pArquivo == NULL){
-                        printf("Erro ao executar o arquivo. \n");
-                        exit(1);
-                    }
-
-                    fprintf(pArquivo, "%d\n%s\n%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
-                    fclose(pArquivo);
-
-                    system("cls");
-                } 
-                else{
-                    printf("Categoria de produto inválida!\n");
+                if(pArquivo == NULL){
+                    printf("Erro ao executar o arquivo. \n");
+                    exit(1);
                 }
+
+                fprintf(pArquivo, "%d\n%s\n%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                fclose(pArquivo);
+
+                system("cls");
             } 
             else if(opc1 == 2){
                 pArquivo = fopen("ArquivoP2.txt", "r");
@@ -288,7 +273,42 @@ void menufunc(Produtos lista[], int *qP){
                 switch (opc21)
                 {
                 case 1:
+                    system("cls");
+                    printf("_____ ESTOQUE DE IPHONES _____\n");
+                    printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
 
+                    qPa = fopen("contador.txt", "r");
+
+                    if(qPa == NULL){
+                        printf("Contador nao encontrado\n");
+                        break;
+                    }
+
+                    fscanf(qPa, "%d", qP);
+
+                    pArquivo = fopen("ArquivoP2.txt", "r");
+
+                    if(pArquivo == NULL){
+                        printf("Dados nao encontrados. Cadastre produtos antes.\n");
+                        break;
+                    }
+
+                    for(i = 0; i < *qP; i++){
+                        fscanf(pArquivo, "%d", &lista[i].codigo);
+                        fgetc(pArquivo);
+                        fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                        fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                        lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+                    }
+
+                    for(i = 0; i < *qP; i++){
+                        if(strcmp(lista[i].nome, "iPhone") == 0){
+                            printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                        }
+                    }
+                    fclose(pArquivo);
+                    fclose(qPa);
                     break;
                 
                 default:
