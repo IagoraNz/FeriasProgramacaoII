@@ -42,6 +42,34 @@ void QuickSort(Produtos vet[], int a, int b){
     }
 }
 
+void troca1(Produtos* a, Produtos* b){
+    Produtos t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int particao1(Produtos arr[], int a, int b){
+    int pivot = arr[a].quantidade;
+    int i = a;
+
+    for(int j = a + 1; j <= b; j++){
+        if(arr[j].quantidade < pivot){
+            i++;
+            troca1(&arr[i], &arr[j]);
+        }
+    }
+    troca1(&arr[i], &arr[a]);
+    return i;
+}
+
+void QuickSort1(Produtos vet[], int a, int b){
+    if(b > a){
+        int p = particao1(vet, a, b);
+
+        QuickSort1(vet, a, p - 1);
+        QuickSort1(vet, p + 1, b);
+    }
+}
 
 void menufunc(Produtos lista[], int *qP){
     int opc, opc1, i = *qP;
@@ -171,7 +199,7 @@ void menufunc(Produtos lista[], int *qP){
             printf("1 - Por ordem de codigo\n");
             printf("2 - Por ordem de quantidade\n");
             printf("3 - Por categoria\n");
-            printf("Escolha a opção de ordenação: ");
+            printf("Escolha a opcao de ordenacao: ");
             int opc2;
             scanf("%d", &opc2);
 
@@ -208,6 +236,63 @@ void menufunc(Produtos lista[], int *qP){
                 printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
                 for(i = 0; i < *qP; i++){
                     printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                }
+            }
+            else if(opc2 == 2){
+                qPa = fopen("contador.txt", "r");
+                if(qPa == NULL){
+                    printf("Contador nao encontrado\n");
+                    break;
+                }
+
+                fscanf(qPa, "%d", qP);
+                fclose(qPa);
+
+                pArquivo = fopen("ArquivoP2.txt", "r");
+
+                if(pArquivo == NULL){
+                    printf("Dados nao encontrados. Cadastre produtos antes.\n");
+                    break;
+                }
+
+                for(i = 0; i < *qP; i++){
+                    fscanf(pArquivo, "%d", &lista[i].codigo);
+                    fgetc(pArquivo);
+                    fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                    fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                    lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+                }
+                fclose(pArquivo);
+
+                QuickSort1(lista, 0, *qP - 1);
+
+                printf("_____ ESTOQUE POR QUANTIDADE _____\n");
+                printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+                for(i = 0; i < *qP; i++){
+                    printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                }
+            }
+            else if(opc2 == 3){
+                system("cls");
+                printf("_____ CATEGORIAS _____\n");
+                printf("3.1 - iPhone\n");
+                printf("3.2 - iPad\n");
+                printf("3.3 - iPod\n");
+                printf("3.4 - Macbook\n");
+                printf("3.5 - Acessorios\n");
+                printf("Categoria desejada: ");
+                int opc21;
+                scanf("%d", &opc21);
+
+                switch (opc21)
+                {
+                case 1:
+
+                    break;
+                
+                default:
+                    break;
                 }
             }
             break;
