@@ -4,7 +4,12 @@
 
 #define MAX 100
 
-typedef struct livros{
+int saldo_bib = 0;
+int quantidade_livros = 0;
+
+//Amanhã: Fazer a Lista de generos e depois continuar o adicionar Livros..
+
+typedef struct {
     char titulo[100];    // Título do livro
     char autor[50];      // Autor do livro
     int anoPublicacao;   // Ano de publicação do livro
@@ -13,7 +18,7 @@ typedef struct livros{
     char disponibilidade[30];
     int quantidade;
     int codigo;
-} Livros;
+} Livro;
 
 int menuprincipal (int op) {
     printf("1 - Funcionario\n2 - Cliente\n3 - Sair\n");
@@ -28,6 +33,18 @@ int menufuncionario (int op) {
     scanf("%d", &op);
     return op;
 }
+
+int Adicionar_Livro (Livro Livros_Bib[], int quantidade_livros) {
+    Livro Novo_Livro;
+    printf("Digite o Titulo do Livro: ");
+    scanf("%99s", &Novo_Livro.titulo);
+    printf("Digite o Nome do Autor do Livro: ");
+    scanf("%99s", &Novo_Livro.autor);
+    printf("Digite o Ano de Publicacao: ");
+    scanf("%d", &Novo_Livro.anoPublicacao);
+
+}
+
 
 void funcionario () {
     int op;
@@ -54,11 +71,13 @@ void funcionario () {
             break;
         }
         
-    } while (1);
+    } while (op != 4);
     
 }
 
 int main () {
+    Livro Livros_Bib[MAX];
+
     int op;
     do {
         system("cls");
