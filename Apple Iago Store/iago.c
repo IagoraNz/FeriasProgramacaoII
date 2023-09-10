@@ -10,6 +10,7 @@ char senhaA[tamanho];
 typedef struct produtos {
     char nome[tamanho];
     int codigo;
+    int categoria;
     int quantidade;
 } Produtos;
 
@@ -73,7 +74,6 @@ void QuickSort1(Produtos vet[], int a, int b){
 
 void menufunc(Produtos lista[], int *qP){
     int opc, opc1, i = *qP;
-    char prod[tamanho];
 
     printf("_____ MENU DO FUNCIONARIO _____\n");
     printf("1 - Produtos\n");
@@ -111,6 +111,12 @@ void menufunc(Produtos lista[], int *qP){
                     scanf("%[^\n]", lista[i].nome);
                     fflush(stdin);
                 }while(strlen(lista[i].nome) <= 1);
+
+                do{
+                    printf("Digite a categoria do produto (1 para iPhone, 2 para iPad, 3 para iPod, 4 para Macbook e 5 para Acessorios): ");
+                    scanf("%d", &lista[i].categoria);
+                    fflush(stdin);
+                }while(lista[i].categoria < 1 || lista[i].categoria > 5);
 
                 do{
                     printf("Digite a quantidade do produto: ");
@@ -273,9 +279,12 @@ void menufunc(Produtos lista[], int *qP){
                 switch (opc21)
                 {
                 case 1:
-                    system("cls");
-                    printf("_____ ESTOQUE DE IPHONES _____\n");
-                    printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+                    pArquivo = fopen("ArquivoP2.txt", "r");
+
+                    if(pArquivo == NULL){
+                        printf("Dados nao encontrados. Cadastre produtos antes.\n");
+                        break;
+                    }
 
                     qPa = fopen("contador.txt", "r");
 
@@ -285,30 +294,11 @@ void menufunc(Produtos lista[], int *qP){
                     }
 
                     fscanf(qPa, "%d", qP);
-
-                    pArquivo = fopen("ArquivoP2.txt", "r");
-
-                    if(pArquivo == NULL){
-                        printf("Dados nao encontrados. Cadastre produtos antes.\n");
-                        break;
-                    }
-
-                    for(i = 0; i < *qP; i++){
-                        fscanf(pArquivo, "%d", &lista[i].codigo);
-                        fgetc(pArquivo);
-                        fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
-                        fscanf(pArquivo, "%d", &lista[i].quantidade);
-
-                        lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
-                    }
-
-                    for(i = 0; i < *qP; i++){
-                        if(strcmp(lista[i].nome, "iPhone") == 0){
-                            printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
-                        }
-                    }
-                    fclose(pArquivo);
+                    
+                    CategoriaI(lista, qP, "iPhone");
+                    
                     fclose(qPa);
+                    fclose(pArquivo);
                     break;
                 
                 default:
