@@ -286,18 +286,25 @@ void menufunc(Produtos lista[], int *qP){
                         break;
                     }
 
-                    qPa = fopen("contador.txt", "r");
+                    system("cls");
 
-                    if(qPa == NULL){
-                        printf("Contador nao encontrado\n");
-                        break;
+                    printf("_____ ESTOQUE DE IPHONES _____\n");
+                    printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+
+                    while(fscanf(pArquivo, "%d", &lista[i].codigo) != EOF){
+                        fgetc(pArquivo);
+                        fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                        fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                        lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+
+                        if(strstr(lista[i].nome, "iPhone") != NULL){
+                            printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                        }
+
+                        i++;
                     }
 
-                    fscanf(qPa, "%d", qP);
-                    
-                    CategoriaI(lista, qP, "iPhone");
-                    
-                    fclose(qPa);
                     fclose(pArquivo);
                     break;
                 
