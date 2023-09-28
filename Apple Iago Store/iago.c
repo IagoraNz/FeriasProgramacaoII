@@ -73,7 +73,8 @@ void QuickSort1(Produtos vet[], int a, int b){
 }
 
 void menufunc(Produtos lista[], int *qP){
-    int opc, opc1, i = *qP;
+    int opc, opc1;
+    int i = *qP;
 
     printf("_____ MENU DO FUNCIONARIO _____\n");
     printf("1 - Produtos\n");
@@ -108,7 +109,7 @@ void menufunc(Produtos lista[], int *qP){
 
                 do{
                     printf("Digite o nome do produto: ");
-                    scanf("%[^\n]", lista[i].nome);
+                    scanf("%s", lista[i].nome);
                     fflush(stdin);
                 }while(strlen(lista[i].nome) <= 1);
 
@@ -278,38 +279,38 @@ void menufunc(Produtos lista[], int *qP){
 
                 switch (opc21)
                 {
-                case 1:
-                    pArquivo = fopen("ArquivoP2.txt", "r");
+                    case 1:
+                        pArquivo = fopen("ArquivoP2.txt", "r");
 
-                    if(pArquivo == NULL){
-                        printf("Dados nao encontrados. Cadastre produtos antes.\n");
-                        break;
-                    }
-
-                    system("cls");
-
-                    printf("_____ ESTOQUE DE IPHONES _____\n");
-                    printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
-
-                    while(fscanf(pArquivo, "%d", &lista[i].codigo) != EOF){
-                        fgetc(pArquivo);
-                        fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
-                        fscanf(pArquivo, "%d", &lista[i].quantidade);
-
-                        lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
-
-                        if(strstr(lista[i].nome, "iPhone") != NULL){
-                            printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                        if(pArquivo == NULL){
+                            printf("Dados nao encontrados. Cadastre produtos antes.\n");
+                            break;
                         }
 
-                        i++;
-                    }
+                        system("cls");
 
-                    fclose(pArquivo);
-                    break;
+                        printf("_____ ESTOQUE DE IPHONES _____\n");
+                        printf("CODIGO\tNOME\t\t\tQUANTIDADE\n");
+
+                        while(fscanf(pArquivo, "%d", &lista[i].codigo) != EOF){
+                            fgetc(pArquivo);
+                            fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                            fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                            lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+
+                            if(strstr(lista[i].nome, "iPhone") != NULL){
+                                printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                            }
+
+                            i++;
+                        }
+
+                        fclose(pArquivo);
+                        break;
                 
-                default:
-                    break;
+                    default:
+                        break;
                 }
             }
             break;
@@ -413,7 +414,23 @@ void funcionario(){
     system("PAUSE");
 }
 
-void cliente(){
+void cliente(int *qP){
+
+    Produtos lista[tamanho];
+    int i = *qP;
+
+    FILE *qPa;
+
+    qPa = fopen("contador.txt", "r");
+
+    if(qPa == NULL){
+        printf("Contador nao encontrado\n");
+        exit(1);
+    }
+
+    fprintf(qPa, "%d", *qP);
+    fclose(qPa);
+
     int opc;
     printf("_____ MENU _____\n");
     printf("1 - Produtos\n");
@@ -422,6 +439,8 @@ void cliente(){
     printf("Escolha a opcao desejada: ");
     scanf("%d", &opc);
     fflush(stdin);
+
+    FILE *pArquivo;
 
     switch (opc)
     {
@@ -441,6 +460,31 @@ void cliente(){
             switch (opc1) 
             {
                 case 1:
+                    pArquivo = fopen("ArquivoP2.txt", "r");
+
+                    if(pArquivo == NULL){
+                        printf("Arquivo vazio!");
+                        break;
+                    }
+
+                    fprintf(pArquivo, "%d\n%s\n%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                    fclose(pArquivo);
+
+                    while(fscanf(pArquivo, "%d", &lista[i].codigo) != EOF){
+                        fgetc(pArquivo);
+                        fgets(lista[i].nome, sizeof(lista[i].nome), pArquivo);
+                        fscanf(pArquivo, "%d", &lista[i].quantidade);
+
+                        lista[i].nome[strcspn(lista[i].nome, "\n")] = '\0';
+
+                        if(strstr(lista[i].nome, "iPhone") != NULL){
+                            printf("%d\t%-15.15s\t\t%d\n", lista[i].codigo, lista[i].nome, lista[i].quantidade);
+                        }
+
+                        i++;
+                    }
+
+                    fclose(pArquivo);
                     break;
 
                 default:
@@ -460,6 +504,7 @@ void cliente(){
 int main(){
 
     int opcao;
+    int qP = 0;
 
     printf("Bem-vindo na Apple Store!\n");
     printf("\nCLIENTE\t\tFUNCIONARIO\t\n");
@@ -472,7 +517,7 @@ int main(){
     {
         case 1:
             system("cls");
-            cliente();
+            cliente(&qP);
             break;
 
         case 2:
